@@ -1,38 +1,25 @@
 package com.example.productservice1.Models;
 
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+@Entity
+public class Product extends BaseModel {
 
 
-
-public class Product {
-    private Long id;
-    private String title;
-    private String desc;
+    private String description;
     private Double price;
+    @ManyToOne
     private Category category;
 
-    public Long getId() {
-        return id;
+    public String getDescription() {
+        return description;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Double getPrice() {
