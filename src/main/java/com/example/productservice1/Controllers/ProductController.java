@@ -4,6 +4,7 @@ import com.example.productservice1.Models.Product;
 import com.example.productservice1.Services.ProductService;
 import com.example.productservice1.dtos.ProductNotFoundExceptionDTO;
 import com.example.productservice1.exception.ProductNotFoundException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,8 @@ import java.util.List;
 public class ProductController {
 
     ProductService productService;
-    public ProductController(ProductService productService) {
+
+    public ProductController(@Qualifier(value = "selfProductService") ProductService productService) {
         this.productService = productService;
     }
 
@@ -34,6 +36,12 @@ public class ProductController {
         response = new ResponseEntity<>(product, HttpStatus.OK);
         return response;
     }
+
+    @PostMapping
+    public Product createProduct(@RequestBody Product product) {
+        return productService.createProduct(product);
+    }
+
     @GetMapping()
     public List<Product> getAllProducts(){
         return productService.getAllProducts();
