@@ -1,17 +1,16 @@
 package com.example.productservice1.Services;
 
-import com.example.productservice1.Models.Category;
-import com.example.productservice1.Models.Product;
+import com.example.productservice1.Model.Product;
 import com.example.productservice1.exception.ProductNotFoundException;
 import com.example.productservice1.repos.CategoryRepo;
 import com.example.productservice1.repos.ProductRepo;
-import org.springframework.http.ResponseEntity;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service(value = "selfProductService")
+@Primary
 public class SelfProductService implements ProductService {
     private final CategoryRepo categoryRepo;
     ProductRepo productRepo;
@@ -40,14 +39,18 @@ public class SelfProductService implements ProductService {
 
     @Override
     public Product createProduct(Product product) {
-        Category category = product.getCategory();
-        if (category.getId() == null) {
-            Category savedCategory = categoryRepo.save(category);
-            product.setCategory(savedCategory);
 
-        } else {
-            //we should check if category is valid or not or something else.
-        }
+        /*
+        we are using cascade now so this is not required we were saving the category first in the database if there was no category hence ab jarurat nahi hai because cascade in jpa will handel it thankyou
+                Category category = product.getCategory();
+                if (category.getId() == null) {
+                    Category savedCategory = categoryRepo.save(category);
+                    product.setCategory(savedCategory);
+
+                } else {
+                    //we should check if category is valid or not or something else.
+                }
+        */
 
         return productRepo.save(product);
     }

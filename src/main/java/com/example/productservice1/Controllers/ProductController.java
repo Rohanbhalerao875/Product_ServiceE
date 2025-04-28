@@ -1,15 +1,15 @@
 package com.example.productservice1.Controllers;
 
-import com.example.productservice1.Models.Product;
+import com.example.productservice1.Model.Product;
 import com.example.productservice1.Services.ProductService;
-import com.example.productservice1.dtos.ProductNotFoundExceptionDTO;
 import com.example.productservice1.exception.ProductNotFoundException;
+import com.example.productservice1.validateToken.TokenService;
+import org.hibernate.cache.spi.access.UnknownAccessTypeException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.management.InstanceNotFoundException;
 import java.util.List;
 
 
@@ -19,13 +19,21 @@ import java.util.List;
 public class ProductController {
 
     ProductService productService;
+//    TokenService tokenService;
 
-    public ProductController(@Qualifier(value = "selfProductService") ProductService productService) {
+    public ProductController(@Qualifier("selfProductService") ProductService productService) {
         this.productService = productService;
+//        this.tokenService = tokenService;
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable("id")Long id) throws ProductNotFoundException {
+//        if(!tokenService.validateToken(token)){
+//            throw new UnknownAccessTypeException("User does not have access to this product");
+//        }
+
+
         Product product = null;
 
             product = productService.getProductById(id);
@@ -60,5 +68,6 @@ public class ProductController {
 //        productNotFoundExceptionDTO.setErrorMessage(e.getMessage());
 //        return new ResponseEntity<>(productNotFoundExceptionDTO,HttpStatus.NOT_FOUND);
 //    }
+
 
 }

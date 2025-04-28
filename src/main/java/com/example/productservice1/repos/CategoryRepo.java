@@ -1,9 +1,7 @@
 package com.example.productservice1.repos;
 
-import com.example.productservice1.Models.Category;
-import com.example.productservice1.Models.Product;
+import com.example.productservice1.Model.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository

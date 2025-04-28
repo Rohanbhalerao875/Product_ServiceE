@@ -1,10 +1,11 @@
 package com.example.productservice1.Services;
 
-import com.example.productservice1.Models.Category;
-import com.example.productservice1.Models.Product;
+import com.example.productservice1.Model.Category;
+import com.example.productservice1.Model.Product;
 import com.example.productservice1.dtos.FakeStoreProductDto;
 import com.example.productservice1.exception.ProductNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+//import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -12,20 +13,23 @@ import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestTemplate;
 
-import javax.management.InstanceNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
-@Service
 
+@Service(value = "notselfProductService")
 public class FakeStoreProductService implements ProductService {
 
 
-    RestTemplate restTemplate ;
-    public FakeStoreProductService(RestTemplate restTemplate) {
+    RestTemplate restTemplate;
+    // RedisTemplate<String , Object> redisTemplate;
+
+
+    public FakeStoreProductService(RestTemplate restTemplate)  //, RedisTemplate<String , Object> redisTemplate) {
+    {
         this.restTemplate = restTemplate;
+  //      this.redisTemplate = redisTemplate;
     }
 
 
@@ -41,11 +45,21 @@ public class FakeStoreProductService implements ProductService {
 
     @Override
     public Product getProductById(Long id) throws ProductNotFoundException {
+
+        // Convert Long id to String when using it as Redis hash key
+//        String redisKey = String.valueOf(id);
+
+//        Product product = (Product) redisTemplate.opsForHash().get("product", redisKey);
+//        if(product != null){
+//            return product;
+//        }
         FakeStoreProductDto fakeStoreProductDto = restTemplate.getForObject("https://fakestoreapi.com/products/"+id, FakeStoreProductDto.class);
         if (fakeStoreProductDto == null) {
             throw new ProductNotFoundException(100L,"Product not found for id "+id);
         }
-        return convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
+        Product product = convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
+        //redisTemplate.opsForHash().put("product", redisKey, product);
+        return product;
     }
 
 

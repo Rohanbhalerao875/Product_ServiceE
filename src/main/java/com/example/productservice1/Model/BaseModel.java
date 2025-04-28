@@ -1,4 +1,4 @@
-package com.example.productservice1.Models;
+package com.example.productservice1.Model;
 
 
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +29,5 @@ public class BaseModel {
     public void setTitle(String title) {
         this.title = title;
     }
-
 
 }

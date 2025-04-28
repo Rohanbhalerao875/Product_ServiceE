@@ -1,10 +1,8 @@
 package com.example.productservice1.Services;
 
-import com.example.productservice1.Models.Product;
+import com.example.productservice1.Model.Product;
 import com.example.productservice1.exception.ProductNotFoundException;
-import org.springframework.http.ResponseEntity;
 
-import javax.management.InstanceNotFoundException;
 import java.util.List;
 
 
